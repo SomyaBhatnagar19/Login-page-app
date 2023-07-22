@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
 const NavBar = () => {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
