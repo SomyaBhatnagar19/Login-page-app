@@ -5,10 +5,11 @@ import NavBar from "./Components/Header/NavBar";
 import LoginPage from "./Components/Pages/Login/LoginPage";
 import ProfilePage from "./Components/Pages/Profile/ProfilePage";
 import HomePage from "./Components/Pages/Home/HomePage";
+import AuthContextProvider from "./Components/Store/AuthContext";
 
 const App = () => {
   return (
-    <>
+    <AuthContextProvider>
       <NavBar />
       <Routes>
         <Route path="/" element={<Navigate to="/HomePage" />} />
@@ -16,9 +17,8 @@ const App = () => {
         <Route path="/LoginPage" element={<LoginPage />} />
         <Route path="/ProfilePage" element={<ProfilePage />} />
       </Routes>
-    </>
+    </AuthContextProvider>
   );
 };
 
 export default App;
-

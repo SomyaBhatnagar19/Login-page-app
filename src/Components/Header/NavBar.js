@@ -1,9 +1,14 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
-
+import { useContext } from "react";
+import { AuthContext } from "../Store/AuthContext";
 const NavBar = () => {
+
+  const authCtx = useContext(AuthContext);
+
+  const isLoggedIn = !!authCtx.token;
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -13,15 +18,15 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/LoginPage">
+           {!isLoggedIn && <Nav.Link as={Link} to="/LoginPage">
               Login
-            </Nav.Link>
-            <Nav.Link as={Link} to="/ProfilePage">
+            </Nav.Link> }
+            {isLoggedIn && <Nav.Link as={Link} to="/ProfilePage">
               Profile
-            </Nav.Link>
-            <Nav.Link>
+            </Nav.Link>}
+            {isLoggedIn && <Nav.Link>
               <Button>Logout</Button>
-            </Nav.Link>
+            </Nav.Link>}
           </Nav>
         </Navbar.Collapse>
       </Container>
