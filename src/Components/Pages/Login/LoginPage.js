@@ -11,54 +11,14 @@
 
 //   const existingAccHandler = () => {
 //     setIsExistingUser((prevState) => !prevState);
+//     setIsLogin((prevState) => !prevState);
 //   };
-
-//   // const submitHandler = async (event) => {
-//   //   event.preventDefault();
-//   //   const enteredEmail = emailInputRef.current.value;
-//   //   const enteredPassword = passwordInputRef.current.value;
-
-//   //   try {
-//   //     const response = await fetch(
-//   //       isLogin
-//   //         ? "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0"
-//   //         : "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0",
-//   //       {
-//   //         method: "POST",
-//   //         headers: {
-//   //           "Content-Type": "application/json",
-//   //         },
-//   //         body: JSON.stringify({
-//   //           email: enteredEmail,
-//   //           password: enteredPassword,
-//   //           returnSecureToken: true,
-//   //         }),
-//   //       }
-//   //     );
-
-//   //     const data = await response.json();
-
-//   //     if (response.ok) {
-//   //       console.log(data);
-//   //       emailInputRef.current.value = "";
-//   //       passwordInputRef.current.value = "";
-//   //       alert("Authentication successful");
-//   //       console.log("idToken:", data.idToken); // Log the idToken (JWT) received in the response.
-//   //     } else {
-//   //       console.log(data);
-//   //       alert("Authentication failed. Please check your credentials.");
-//   //     }
-//   //   } catch (error) {
-//   //     console.log(error);
-//   //     alert("An error occurred. Please try again later.");
-//   //   }
-//   // };
 
 //   const submitHandler = async (event) => {
 //     event.preventDefault();
 //     const enteredEmail = emailInputRef.current.value;
 //     const enteredPassword = passwordInputRef.current.value;
-  
+
 //     try {
 //       const response = await fetch(
 //         isLogin
@@ -76,19 +36,19 @@
 //           }),
 //         }
 //       );
-  
+
 //       const data = await response.json();
-  
+
 //       if (response.ok) {
-//         console.log(data);
+        
 //         emailInputRef.current.value = "";
 //         passwordInputRef.current.value = "";
-  
+
 //         if (isLogin) {
-//           alert("Authentication successful");
+//           alert("Login successful");
 //           console.log("idToken:", data.idToken);
 //         } else {
-//           if (data.error && data.error.message.includes("EMAIL_EXISTS")) {
+//           if (data.error && data.error.message === "EMAIL_EXISTS") {
 //             alert("Email exists & login successful");
 //           } else {
 //             alert("Sign up successful");
@@ -96,7 +56,6 @@
 //           console.log("idToken:", data.idToken);
 //         }
 //       } else {
-//         console.log(data);
 //         alert("Authentication failed. Please check your credentials.");
 //       }
 //     } catch (error) {
@@ -169,54 +128,59 @@ const LoginPage = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const submitHandler = async (event) => {
+  const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    try {
-      const response = await fetch(
-        isLogin
-          ? "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0"
-          : "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        
-        emailInputRef.current.value = "";
-        passwordInputRef.current.value = "";
-
+    fetch(
+      isLogin
+        ? "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0"
+        : "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: enteredEmail,
+          password: enteredPassword,
+          returnSecureToken: true,
+        }),
+      }
+    )
+      .then((response) => {
+        return response.json();  
+      })
+      .then((data) => { 
+        if (data.hasOwnProperty("error")) {
+          console.log(data);
+          alert(data.error.message);
+           emailInputRef.current.value = "";
+           passwordInputRef.current.value = "";
+        } else {
+          console.log(data);
+           emailInputRef.current.value = "";
+           passwordInputRef.current.value = "";
         if (isLogin) {
           alert("Login successful");
-          console.log("idToken:", data.idToken);
+          //console.log("idToken:", data.idToken);
         } else {
           if (data.error && data.error.message === "EMAIL_EXISTS") {
             alert("Email exists & login successful");
           } else {
             alert("Sign up successful");
           }
-          console.log("idToken:", data.idToken);
+          //console.log("idToken:", data.idToken);
         }
-      } else {
-        alert("Authentication failed. Please check your credentials.");
-      }
-    } catch (error) {
-      console.log(error);
-      alert("An error occurred. Please try again later.");
-    }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert(error);
+         emailInputRef.current.value = "";
+         passwordInputRef.current.value = "";
+      });
   };
 
   return (
