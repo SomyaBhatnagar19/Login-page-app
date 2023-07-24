@@ -5,9 +5,10 @@ import { useContext } from "react";
 import { AuthContext } from "../../Store/AuthContext";
 
 
+
 const LoginPage = () => {
 
-  const authCtx = useContext(AuthContext);
+  const AuthCtx = useContext(AuthContext);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
 
@@ -51,9 +52,9 @@ const LoginPage = () => {
            passwordInputRef.current.value = "";
         } else {
           console.log(data);
-           emailInputRef.current.value = "";
+          emailInputRef.current.value = "";
           passwordInputRef.current.value = "";
-          authCtx.login(data.idToken); //passing token to the loginHandeler function in context
+          AuthCtx.login(data.idToken);
         if (isLogin) {
           alert("Login successful");
           //console.log("idToken:", data.idToken);

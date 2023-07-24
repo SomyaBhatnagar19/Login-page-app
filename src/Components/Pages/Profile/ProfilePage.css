@@ -1,0 +1,22 @@
+h1, h5 {
+    margin-top:2rem;
+    text-align: center;
+  }
+  
+  /* Add some padding to the container */
+  .Container {
+    padding: 20px;
+  }
+  
+    
+  /* Add some spacing between the input and the button */
+  .Form.Group {
+    margin-bottom: 15px;
+  }
+  
+  /* Center the button */
+  Button[type="submit"] {
+    margin: 0 auto;
+    display: block;
+  }
+  

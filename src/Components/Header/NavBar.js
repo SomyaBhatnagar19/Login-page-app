@@ -3,12 +3,13 @@ import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Store/AuthContext";
+
 const NavBar = () => {
-
-  const authCtx = useContext(AuthContext);
-
-  const isLoggedIn = !!authCtx.token;
-
+  const AuthCtx = useContext(AuthContext);
+  
+  //!! -> used to make the string changed to boolean
+  const isLoggedIn = !!AuthCtx.token;
+  
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
