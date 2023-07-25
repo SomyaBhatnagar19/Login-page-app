@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import NavBar from "./Components/Header/NavBar";
@@ -11,6 +12,17 @@ import { useContext } from "react";
 const App = () => {
   const AuthCtx = useContext(AuthContext);
 
+  //for setting auto logout
+  useEffect(() => {
+    const tokenExpirationTime = 1 * 60 * 1000; // 5 minutes in milliseconds
+    const timer = setTimeout(() => {
+      AuthCtx.logout();
+      alert('Session expired. Login again.');
+      console.log('Time out');
+    }, tokenExpirationTime);
+    
+    return () => clearTimeout(timer);
+  }, [AuthCtx]);
   return (
     <AuthContextProvider>
       <NavBar />
