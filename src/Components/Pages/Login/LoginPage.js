@@ -3,15 +3,16 @@ import { Container, Card, Form, Button } from "react-bootstrap";
 import "./LoginPage.css";
 import { useContext } from "react";
 import { AuthContext } from "../../Store/AuthContext";
-
-
+import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
 
   const AuthCtx = useContext(AuthContext);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-
+  const navigate = useNavigate();
+  
   const [isLogin, setIsLogin] = useState(false);
   const [isExistingUser, setIsExistingUser] = useState(false);
 
@@ -25,6 +26,8 @@ const LoginPage = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
+    
+   
     fetch(
       isLogin
         ? "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAFNzyd_VCN1qz42nuYjj-2I7WkJl6i8C0"
@@ -55,10 +58,12 @@ const LoginPage = () => {
           emailInputRef.current.value = "";
           passwordInputRef.current.value = "";
           AuthCtx.login(data.idToken);
+          // navigate("/ProfilePage");
         if (isLogin) {
           alert("Login successful");
           //console.log("idToken:", data.idToken);
           setIsLogin(false);
+          
         } else {
           if (data.error && data.error.message === "EMAIL_EXISTS") {
             alert("Email exists & login successful");
@@ -66,6 +71,7 @@ const LoginPage = () => {
             alert("Sign up successful");
           }
           //console.log("idToken:", data.idToken);
+          
         }
         }
       })
